@@ -1,42 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div id="app">
-        <!-- 
-            v-model 可以让数据和视图，形成双向数据绑定
-            1. 数据变化 → 视图自动更新
-            2. 视图变化 → 数据自动更新
-         -->
-        账户：<input type="text" v-model="username" name="" id="">
-        密码：<input type="password" v-moel="password" name="" id="">
-
-        <button @click="login">登录</button>
-        <button @click="reset">重置</button>
+        <header>
+            <h1>记事本</h1>
+            <input v-model="todoName" type="text" placeholder="请输入任务" class="new-todo">
+            <button @click="add" class="add">添加任务</button>
+        </header>
+        <section class="main">
+            <ul class="todo-list" v-for="(item, index) in list" :key="item.id">
+                <li class="todo">
+                    <div class="view">
+                        <span class="index">{{ index + 1 }}.</span>
+                        <label for="">{{ item.name }}</label>
+                        <button @click="del(item.id)" class="destroy">删除</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <footer v-show="list.length > 0" class="footer">
+            <!-- 统计 -->
+            <span class="todo-count">合计：<strong>{{ list.length }}</strong></span>
+            <!-- 清空 -->
+            <button @click="clear" class="clear-completed">
+                清空任务
+            </button>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
-        const app =new Vue({
+        const app = new Vue({
             el: '#app',
             data: {
-                username: '',
-                password: ''
+                todoName: '',
+                list: [
+                    { id: 1, name: '跑步一公里' },
+                    { id: 2, name: '跳绳200次' },
+                    { id: 3, name: '游泳100米' }
+                ]
             },
             methods: {
-                login() {
-                    console.log(this.username,this.password)
+                del(id) {
+                    // console.log(id)
+                    this.list = this.list.filter(item => item.id !== id)
                 },
-                reset() {
-                    this.username = ''
-                    this.password = ''
+                add() {
+                    if (this.todoName.trim() === '') {
+                        alert('请输入任务名称')
+                        return
+                    }
+
+                    this.list.unshift({
+                        // 一般id由后台生成，这里用时间戳练习
+                        id: +new Date(),
+                        name: this.todoName
+                    })
+                    this.todoName = ''
+                },
+                clear() {
+                    this.list = []
                 }
             }
         })
     </script>
 </body>
+
 </html>
