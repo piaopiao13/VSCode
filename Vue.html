@@ -9,30 +9,9 @@
 
 <body>
     <div id="app">
-        <header>
-            <h1>记事本</h1>
-            <input v-model="todoName" type="text" placeholder="请输入任务" class="new-todo">
-            <button @click="add" class="add">添加任务</button>
-        </header>
-        <section class="main">
-            <ul class="todo-list" v-for="(item, index) in list" :key="item.id">
-                <li class="todo">
-                    <div class="view">
-                        <span class="index">{{ index + 1 }}.</span>
-                        <label for="">{{ item.name }}</label>
-                        <button @click="del(item.id)" class="destroy">删除</button>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <footer v-show="list.length > 0" class="footer">
-            <!-- 统计 -->
-            <span class="todo-count">合计：<strong>{{ list.length }}</strong></span>
-            <!-- 清空 -->
-            <button @click="clear" class="clear-completed">
-                清空任务
-            </button>
-        </footer>
+       <h3>@key.enter -> 监听键盘回车事件</h3> 
+       <!-- <input @keyup.enter="fn" v-model="username" type="text"> -->
+       <input @keyup="fn" v-model="username" type="text">
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -40,33 +19,21 @@
         const app = new Vue({
             el: '#app',
             data: {
-                todoName: '',
-                list: [
-                    { id: 1, name: '跑步一公里' },
-                    { id: 2, name: '跳绳200次' },
-                    { id: 3, name: '游泳100米' }
-                ]
+                username: ''
             },
             methods: {
-                del(id) {
-                    // console.log(id)
-                    this.list = this.list.filter(item => item.id !== id)
-                },
-                add() {
-                    if (this.todoName.trim() === '') {
-                        alert('请输入任务名称')
-                        return
-                    }
+                fn(e) {
+                    // 只要一按按键就会触发
+                    // console.log('按回车键触发', this.username)
 
-                    this.list.unshift({
-                        // 一般id由后台生成，这里用时间戳练习
-                        id: +new Date(),
-                        name: this.todoName
-                    })
-                    this.todoName = ''
-                },
-                clear() {
-                    this.list = []
+                    
+                    // 通常第一个形参，可以直接获取事件对象
+                    console.log(e)
+
+                    // 按键修饰符的原理
+                    if (e.key === 'Enter') {
+                        console.log('按回车键触发', this.username)
+                    }
                 }
             }
         })
