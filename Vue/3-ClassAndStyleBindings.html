@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+  <style>
+      .box {
+          width: 100px;
+          height: 100px;
+          background-color: lightblue;
+      }
+      .pink {
+          background-color: pink;
+      }
+      .big {
+          width: 200px;
+          height: 200px;
+      }
+  </style> 
+<body>
+    <div id="app">
+
+      <!-- v-bind + class -->
+       <div class="box" :class="{ pink: false, big: true}">box</div>
+       <div class="box" :class="[ 'pink', 'big' ]">box</div>
+
+      <!-- v-bind + style -->
+      <div class="box" :style="{ width: '400px', height: '400px', 'background-color': 'green' }"></div>
+      <div class="box" :style="{ width: '400px', height: '400px', backgroundColor: 'pink' }"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+</body>
+
+</html>

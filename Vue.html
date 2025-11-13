@@ -5,40 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .father {
-            width: 200px;
-            height: 200px;
-            background-color: lightblue;
-        }
-        .son {
-            width: 100px;
-            height: 100px;
-            background-color: lightcoral;
-        }
-    </style>
 </head>
 
 <body>
     <div id="app">
-        <!-- 按键修饰符 Key Modifiers -->
-        <h3>`@key.enter` -> 监听键盘回车事件</h3> 
-        <!-- <input @keyup.enter="fn" v-model="username" type="text"> -->
-        <input @keyup="fn" v-model="username" type="text">
-
-        <!-- v-model修饰符 -->
-        <h3>.trim .number</h3>
-        姓名：<input v-model.trim="name" type="text" name="" id=""><br>
-        年级：<input v-model.number="age" type="text" name="" id="">
-
-        <!-- 事件修饰符 Event Modifiers -->
-        <h3>`@事件名.stop` -> 阻止冒泡</h3>
-        <div class="father" @click="fatherFn">
-            <div class="son" @click.stop="sonFn"></div>
-            <!-- 没有.stop修饰的时候，父子元素的函数都会触发 -->
-        </div>
-        <h3>`@事件名.prevent` -> 阻止默认行为</h3> 
-        <a href="https://www.baidu.com" target="_blank" @click.prevent>百度一下</a>
+       
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -46,30 +17,10 @@
         const app = new Vue({
             el: '#app',
             data: {
-                username: '',
-                name: '',
-                age: ''
+                
             },
             methods: {
-                fn(e) {
-                    // 只要一按按键就会触发
-                    // console.log('按回车键触发', this.username)
-
-                    
-                    // 通常第一个形参，可以直接获取事件对象
-                    console.log(e)
-
-                    // 按键修饰符的原理
-                    if (e.key === 'Enter') {
-                        console.log('按回车键触发', this.username)
-                    }
-                },
-                fatherFn() {
-                    console.log('我是父元素')
-                },
-                sonFn() {
-                    console.log('我是子元素')
-                }
+                
             }
         })
     </script>

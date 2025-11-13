@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .active {
+            background-color: #42b983;
+            color: white;
+            border-color: #42b983;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+       <ul>
+            <li v-for="(item, index) in list" :key="item.id" @click="activeIndex = index">
+                <a href="#" :class="{ active: index === activeIndex}">{{item.name}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 记录高亮
+                activeIndex: 0,
+                list: [
+                    { id: 1, name: 'Tab1' },
+                    { id: 2, name: 'Tab2' },
+                    { id: 3, name: 'Tab3' }
+                ]
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+</body>
+
+</html>
