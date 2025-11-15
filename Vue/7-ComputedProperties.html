@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       <table border="1">
+        <tbody>
+            <tr v-for="item in list" :key="item.id">
+                <td>{{ item.name }}</td>
+                <td>{{ item.num }}</td>
+            </tr>
+        </tbody>
+       </table>
+
+       <p>Total: {{ totalCount }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    { id: 1, name: 'item1', num: 10 },
+                    { id: 2, name: 'item2', num: 20 },
+                    { id: 3, name: 'item3', num: 30 }
+                ]
+            },
+            computed: {
+                totalCount() {
+                    // 这里可以写复杂的计算逻辑
+                    let total = 0
+                    total= this.list.reduce((sum, item) => sum + item.num, 0)
+                    return total
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
