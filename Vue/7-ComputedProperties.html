@@ -19,6 +19,20 @@
        </table>
 
        <p>Total: {{ totalCount }}</p>
+       <p>Total: {{ totalCount }}</p>
+       <p>Total: {{ totalCount }}</p>
+       <p>Total: {{ totalCount }}</p>
+       <p>Total: {{ totalCount }}</p>
+       <p>Total: {{ totalCount }}</p>
+
+
+       <p>Total: {{ totalCountFn() }}</p>
+       <p>Total: {{ totalCountFn() }}</p>
+       <p>Total: {{ totalCountFn() }}</p>
+       <p>Total: {{ totalCountFn() }}</p>
+       <p>Total: {{ totalCountFn() }}</p>
+       <p>Total: {{ totalCountFn() }}</p>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -32,8 +46,24 @@
                     { id: 3, name: 'item3', num: 30 }
                 ]
             },
+            methods: {
+                totalCountFn(){
+                    // 测试方法调用了几次，没有缓存，每次调用都会执行
+                    console.log('totalCountFn')
+
+                    let total = 0
+                    this.list.forEach(item => {
+                        total += item.num
+                    })
+                    return total
+                }
+            },
             computed: {
                 totalCount() {
+                    // 测试计算属性计算了几次，验证缓存机制
+                    // 有缓存，虽然多处引用了这个属性，但只会计算一次
+                    console.log('计算属性被计算了')
+
                     // 这里可以写复杂的计算逻辑
                     let total = 0
                     total= this.list.reduce((sum, item) => sum + item.num, 0)
