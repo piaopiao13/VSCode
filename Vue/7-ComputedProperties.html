@@ -33,6 +33,14 @@
        <p>Total: {{ totalCountFn() }}</p>
        <p>Total: {{ totalCountFn() }}</p>
 
+       <hr>
+
+
+       姓：<input type="text" v-model="firstName"> + 
+       名：<input type="text" v-model="lastName"> = 
+       <span>{{ fullName }}</span>
+       <br>
+       <button @click="changeName">改名卡</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -44,7 +52,9 @@
                     { id: 1, name: 'item1', num: 10 },
                     { id: 2, name: 'item2', num: 20 },
                     { id: 3, name: 'item3', num: 30 }
-                ]
+                ],
+                firstName: '张',
+                lastName: '三'
             },
             methods: {
                 totalCountFn(){
@@ -56,6 +66,9 @@
                         total += item.num
                     })
                     return total
+                },
+                changeName() {
+                    this.fullName = '李四'
                 }
             },
             computed: {
@@ -68,6 +81,18 @@
                     let total = 0
                     total= this.list.reduce((sum, item) => sum + item.num, 0)
                     return total
+                },
+                fullName: {
+                    // 当访问计算属性时,会执行get方法(有缓存)
+                    get() {
+                        return this.firstName + this.lastName
+                    },
+                    // 当计算属性被修改赋值,会执行set方法
+                    set(value) {
+                        // console.log('set fullName:', value)
+                        this.firstName = value.slice(0, 1)
+                        this.lastName = value.slice(1)
+                    }
                 }
             }
         })
