@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       <div>
+            <textarea name="" id="" v-model="words"></textarea>
+       </div>
+       <div>
+            <div>{{ result }}</div>
+       </div>
+       <hr>
+
+       <div>
+        <select name="" id="">
+            
+        </select>
+       </div>
+       <div>
+            <textarea name="" id="" v-model="words2"></textarea>
+       </div>
+       <div>
+            <div>{{ result2 }}</div>
+       </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                words: '',
+                obj: {
+                    msg: ''
+                },
+                //翻译结果
+                result: '',
+                translate: {
+                    words: 'apple',
+                    lang: 'italy'
+                }
+            },
+            watch: {
+                // 普通类型监听
+                words (newValue, oldValue) {
+                    // console.log(newValue, oldValue)
+
+                    //防抖
+                    clearTimeout(this.timer)
+                    // this.timer: 延时器id
+                    this.timer = setTimeout(async () => {
+                        const res = await axios({
+                            url: '',
+                            params: {
+                                words: newValue
+                            }
+                        })
+                        this.result = res.data.data
+                        console.log(res.data.data)
+                    }, 300)
+
+                },
+                //对象类型监听
+                'obj.msg' (newValue) {
+                    console.log(newValue)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
