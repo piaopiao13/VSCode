@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+            min-height: 50px;
+            border: 1px solid #000;
+            margin-top: 10px;
+            padding: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,20 +22,25 @@
             <textarea name="" id="" v-model="words"></textarea>
        </div>
        <div>
-            <div>{{ result }}</div>
+            翻译：
+            <div class="box">{{ result }}</div>
        </div>
        <hr>
 
        <div>
-        <select name="" id="">
+        <select name="" id="" v-model="translate.lang">
+            <option value="italy">意大利语</option>
+            <option value="eng">英语</option>
+            <option value="japan">日语</option>
             
         </select>
        </div>
        <div>
-            <textarea name="" id="" v-model="words2"></textarea>
+            <textarea name="" id="" v-model="translate.words"></textarea>
        </div>
        <div>
-            <div>{{ result2 }}</div>
+            翻译：
+            <div class="box">{{ result2 }}</div>
        </div>
 
     </div>
@@ -45,7 +59,8 @@
                 translate: {
                     words: 'apple',
                     lang: 'italy'
-                }
+                },
+                result2: ''
             },
             watch: {
                 // 普通类型监听
@@ -63,13 +78,33 @@
                             }
                         })
                         this.result = res.data.data
-                        console.log(res.data.data)
+                        console.log(this.result)
                     }, 300)
 
                 },
                 //对象类型监听
                 'obj.msg' (newValue) {
                     console.log(newValue)
+                },
+                translate: {
+                    deep: true,
+                    immediate: true,
+                    handler (newValue) {
+                        // console.log(newValue)
+                        clearTimeout(this.timer2)
+                        this.timer2 = setTimeout(async () => {
+                            const res = await axios({
+                                url: '',
+                                params: newValue
+                                // {
+                                //     words: newValue.words,
+                                //     lang: newValue.lang
+                                // }
+                            })
+                            this.result2 = res.data.data
+                            console.log(res.data.data)
+                        }, 300)
+                    }
                 }
             }
         })
