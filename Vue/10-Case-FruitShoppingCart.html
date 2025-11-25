@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       <div class="main" v-if="fruitList.length > 0">
+        <table class="table">
+            <thead class="thead">
+                <tr class="tr">
+                    <th class="th">选择</th>
+                    <th class="th">图标</th>
+                    <th class="th">数量</th>
+                    <th class="th">单价</th>
+                    <th class="th">总价</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr class="tr" v-for="fruit in fruitList" :key="fruit.id">
+                    <td class="td">
+                        <input type="checkbox" v-model="fruit.isChecked" />
+                    </td>
+                    <td class="td">{{ fruit.icon }}</td>
+                    <td class="td">{{ fruit.num }}</td>
+                    <td class="td">{{ fruit.price }}</td>
+                    <td class="td">{{ fruit.num * fruit.price }}</td>
+                </tr>
+            </tbody>
+        </table>
+       </div>
+       <div class="empty" v-else>空</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                fruitList: [
+                    { 
+                        id: 1,
+                        icon: '🍎',
+                        isChecked: false,
+                        num: 2,
+                        price: 5
+                    },
+                    { 
+                        id: 2,
+                        icon: '🍌',
+                        isChecked: true,
+                        num: 3,
+                        price: 4
+                    },
+                    { 
+                        id: 3,
+                        icon: '🍇',
+                        isChecked: false,
+                        num: 1,
+                        price: 8
+                    }
+                ]
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+</body>
+
+</html>
