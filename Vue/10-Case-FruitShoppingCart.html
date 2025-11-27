@@ -1,185 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        .main {
-            width: 600px;
-            margin: 0 auto;
-        }
+      .main {
+        width: 600px;
+        margin: 0 auto;
+      }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
 
-        .thead {
-            background-color: #f5f5f5;
-        }
+      .thead {
+        background-color: #f5f5f5;
+      }
 
-        .th,
-        .td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
+      .th,
+      .td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+      }
 
-        .fruit-num {
-            width: 3em;
-            text-align: center;
-        }
+      .fruit-num {
+        width: 3em;
+        text-align: center;
+      }
 
-        .active {
-            background-color: pink;
-        }
+      .active {
+        background-color: pink;
+      }
 
-        .bottom {
-            margin-top: 10px;
-            clear: both;
-        }
+      .bottom {
+        margin-top: 10px;
+        clear: both;
+      }
 
-        .right-box {
-            float: right;
-            text-align: right;
-        }
+      .right-box {
+        float: right;
+        text-align: right;
+      }
 
-        .price-box {
-            font-size: 20px;
-            margin-right: 30px;
-        }
+      .price-box {
+        font-size: 20px;
+        margin-right: 30px;
+      }
 
-        .pay {
-            padding: 5px 15px;
-            background-color: orange;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+      .pay {
+        padding: 5px 15px;
+        background-color: orange;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
 
-        .empty {
-            border: 1px solid #ccc;
-            margin: 0 auto;
-            width: 600px;
-            height: 200px;
-            line-height: 200px;
-            text-align: center;
-            font-size: 24px;
-            color: #888;
-        }
+      .empty {
+        border: 1px solid #ccc;
+        margin: 0 auto;
+        width: 600px;
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        font-size: 24px;
+        color: #888;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app">
-       <div class="main" v-if="fruitList.length > 0">
+      <div class="main" v-if="fruitList.length > 0">
         <table class="table">
-            <thead class="thead">
-                <tr class="tr">
-                    <th class="th">选择</th>
-                    <th class="th">图标</th>
-                    <th class="th">单价</th>
-                    <th class="th">数量</th>
-                    <th class="th">小计</th>
-                    <th class="th">操作</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr class="tr" :class="{ active: fruit.isChecked }" v-for="fruit in fruitList" :key="fruit.id">
-                    <td class="td">
-                        <input type="checkbox" v-model="fruit.isChecked" />
-                    </td>
-                    <td class="td">{{ fruit.icon }}</td>
-                    <td class="td">{{ fruit.price }}</td>
-                    <td class="td">
-                        <button class="decrease" @click="decrease(fruit.id)" :disabled="fruit.num <= 1"> - </button>
-                        <input class="fruit-num" type="text" name="" id="" v-model="fruit.num" 
-                            @input="allowNum(fruit.id)" >
-                        <button class="increase" @click="increase(fruit.id)"> + </button>
-                    </td>
-                    <td class="td">{{ fruit.num * fruit.price }}</td>
-                    <td class="td"><button @click="del(fruit.id)">删除</button></td>
-                </tr>
-            </tbody>
+          <thead class="thead">
+            <tr class="tr">
+              <th class="th">选择</th>
+              <th class="th">图标</th>
+              <th class="th">单价</th>
+              <th class="th">数量</th>
+              <th class="th">小计</th>
+              <th class="th">操作</th>
+            </tr>
+          </thead>
+          <tbody class="tbody">
+            <tr
+              class="tr"
+              :class="{ active: fruit.isChecked }"
+              v-for="fruit in fruitList"
+              :key="fruit.id"
+            >
+              <td class="td">
+                <input type="checkbox" v-model="fruit.isChecked" />
+              </td>
+              <td class="td">{{ fruit.icon }}</td>
+              <td class="td">{{ fruit.price }}</td>
+              <td class="td">
+                <button
+                  class="decrease"
+                  @click="decrease(fruit.id)"
+                  :disabled="fruit.num <= 1"
+                >
+                  -
+                </button>
+                <input
+                  class="fruit-num"
+                  type="text"
+                  name=""
+                  id=""
+                  v-model="fruit.num"
+                  @input="allowNum(fruit.id)"
+                />
+                <button class="increase" @click="increase(fruit.id)">+</button>
+              </td>
+              <td class="td">{{ fruit.num * fruit.price }}</td>
+              <td class="td"><button @click="del(fruit.id)">删除</button></td>
+            </tr>
+          </tbody>
         </table>
         <div class="bottom">
-            <label for="checkAll">
-                <input type="checkbox" id="checkAll"> 全选
-            </label>
-            <div class="right-box">
-                <span class="price-box">总价:  </span>
-                <button class="pay">结算（6）</button>
-            </div>
+          <label for="checkAll">
+            <input type="checkbox" id="checkAll" v-model="checkAll" /> 全选
+          </label>
+          <div class="right-box">
+            <span class="price-box">总价: {{ totalPrice }}</span>
+            <button class="pay">结算（{{ totalNum }}）</button>
+          </div>
         </div>
-       </div>
-       <div class="empty" v-else>空</div>
+      </div>
+      <div class="empty" v-else>空</div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
-        const app = new Vue({
-            el: '#app',
-            data: {
-                // fruitList: []
-                fruitList: [
-                    { 
-                        id: 1,
-                        icon: '🍎',
-                        isChecked: false,
-                        num: 2,
-                        price: 5
-                    },
-                    { 
-                        id: 2,
-                        icon: '🍌',
-                        isChecked: true,
-                        num: 3,
-                        price: 4
-                    },
-                    { 
-                        id: 3,
-                        icon: '🍇',
-                        isChecked: false,
-                        num: 1,
-                        price: 8
-                    }
-                ]
-            },
-            methods: {
-                del(id) {
-                    this.fruitList = this.fruitList.filter( item => item.id !== id)
-                },
-                increase(id) {
-                    const fruit = this.fruitList.find(item => item.id === id)
-                    fruit.num ++
-                },
-                decrease(id) {
-                    const fruit = this.fruitList.find(item => item.id === id)
-                    fruit.num --
-                },
-                allowNum(id) {
-                    const fruit = this.fruitList.find(item => item.id === id)
-                    // 输入的是字符串，以下验证是否为数值永远为假
-                    // if(!Number.isInteger(fruit.num) || fruit.num < 1) {
-                    //     fruit.num = 1
-                    // }
+      const defaultFruitList = [
+        {
+          id: 1,
+          icon: "🍎",
+          isChecked: false,
+          num: 2,
+          price: 5,
+        },
+        {
+          id: 2,
+          icon: "🍌",
+          isChecked: true,
+          num: 3,
+          price: 4,
+        },
+        {
+          id: 3,
+          icon: "🍇",
+          isChecked: false,
+          num: 1,
+          price: 8,
+        },
+      ]
+      const app = new Vue({
+        el: "#app",
+        data: {
+          // fruitList: []
+          fruitList: JSON.parse(localStorage.getItem("fruitList")) || defaultFruitList 
+        //   fruitList: JSON.parse(localStorage.getItem("fruitList")) || [] 
+        },
+        methods: {
+          del(id) {
+            this.fruitList = this.fruitList.filter((item) => item.id !== id);
+          },
+          increase(id) {
+            const fruit = this.fruitList.find((item) => item.id === id);
+            fruit.num++;
+          },
+          decrease(id) {
+            const fruit = this.fruitList.find((item) => item.id === id);
+            fruit.num--;
+          },
+          allowNum(id) {
+            const fruit = this.fruitList.find((item) => item.id === id);
+            // 输入的是字符串，以下验证是否为数值永远为假
+            // if(!Number.isInteger(fruit.num) || fruit.num < 1) {
+            //     fruit.num = 1
+            // }
 
-                    // 强制转换为数值
-                    fruit.num = parseInt(fruit.num)
-                    if(!Number.isInteger(fruit.num) || fruit.num < 1) {
-                        fruit.num = 1
-                    }
-
-                    // // 或者可以考虑使用正则表达式
-                    // fruit.num = fruit.num.replace(/\D/g, '')
-
-                }
+            // 强制转换为数值
+            fruit.num = parseInt(fruit.num);
+            if (!Number.isInteger(fruit.num) || fruit.num < 1) {
+              fruit.num = 1;
             }
-        })
-    </script>
-</body>
 
+            // // 或者可以考虑使用正则表达式
+            // fruit.num = fruit.num.replace(/\D/g, '')
+          },
+        },
+        computed: {
+          checkAll: {
+            get() {
+              return this.fruitList.every((item) => item.isChecked);
+            },
+            set(value) {
+              console.log(value);
+              this.fruitList.forEach((item) => {
+                item.isChecked = value;
+              });
+            },
+          },
+          totalNum() {
+            return this.fruitList.reduce((sum, item) => {
+              if (item.isChecked) {
+                return sum + item.num;
+              }
+              return sum;
+            }, 0);
+          },
+          totalPrice() {
+            return this.fruitList.reduce((sum, item) => {
+              if (item.isChecked) {
+                return sum + item.num * item.price;
+              }
+              return sum;
+            }, 0);
+          },
+        },
+        watch: {
+          fruitList: {
+            deep: true,
+            handler(newVal) {
+              // console.log('fruitList changed', newVal)
+              localStorage.setItem("fruitList", JSON.stringify(newVal));
+            },
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
