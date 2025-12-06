@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       <h3>{{title}}</h3>
+       <div>
+        <button @click="count--">-</button>
+        <span>{{count}}</span>
+        <button @click="count++">+</button>
+       </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                count: 100,
+                title: '计数器'
+            },
+            // 1. 创建阶段
+            beforeCreate() {
+                console.log('beforeCreate 响应式数据准备好之前：', this.count)
+                // beforeCreate 响应式数据准备好之前 undefined
+            },
+            created() {
+                console.log('created 响应式数据准备好之后：', this.count)
+
+                // 开始发送网络请求，获取初始化数据
+            },
+
+            // 2. 挂载阶段
+            beforeMount() {
+                console.log('beforeMount 模板渲染之前：', document.querySelector('h3').innerHTML)
+                // beforeMount 模板渲染之前： {{title}}
+            },
+            mounted() {
+                console.log('mouted 模板渲染之后：', document.querySelector('h3').innerHTML)
+                // mouted 模板渲染之后： 计数器
+            },
+
+            // 3. 更新阶段
+            // 每次数据更新都会触发，修改数据->视图更新
+            beforeUpdate() {
+                console.log('beforeUpdate 数据修改了，视图更新之前：', document.querySelector('span').innerHTML)
+            },
+            updated() {
+                console.log('updated 数据修改了，视图更新之后：', document.querySelector('span').innerHTML)
+            },
+
+            // 4. 销毁阶段
+            beforeDestroy() {
+                console.log('beforeDestroy 实例销毁之前')
+                
+                // 可用Vue提供的方法销毁实例 
+                // this.$destroy() / app.$destroy()
+                // 销毁之后，所有Vue的相关绑定监听都会被移除，页面上也不会再响应数据变化
+                // 但是，界面上原有的内容不会被清空
+
+                // 一般会在清掉Vue以外的一些资源占用，如定时器，延时器等 
+            },
+            destroyed() {
+                console.log('beforeDestroy 卸载之后')
+            }
+        })
+    </script>
+</body>
+
+</html>

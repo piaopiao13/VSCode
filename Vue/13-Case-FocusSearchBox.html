@@ -1,0 +1,57 @@
+<!-- File: /e:/code/VSCode/Vue/13-Case-Search.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Vue2 搜索示例（mounted 获取焦点）</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .search-box { display:flex; gap:8px; align-items:center; }
+        input[type="search"] { padding:8px 10px; font-size:14px; flex:1; }
+        button { padding:8px 12px; font-size:14px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2>搜索示例（Vue 2）</h2>
+        <div class="search-box">
+            <input
+                id="inp"
+                type="search"
+                v-model="query"
+                placeholder="请输入关键词，按 Enter 或点击搜索"
+                @keyup.enter="search"
+                autocomplete="off"
+            />
+            <button @click="search">搜索</button>
+        </div>
+
+        <p v-if="lastSearch">上次搜索：<strong>{{ lastSearch }}</strong></p>
+    </div>
+
+    <!-- Vue 2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        // Vue 2 选项式写法（root 实例）
+        new Vue({
+            el: '#app',
+            data: {
+                query: '',
+                lastSearch: ''
+            },
+            mounted: function () {
+                // 确保 DOM 已就绪后获取焦点
+                document.querySelector('#inp').focus()
+            },
+            methods: {
+                search: function () {
+                    this.lastSearch = this.query.trim()
+                    // 实际搜索逻辑可替换为 AJAX、路由跳转等
+                    console.log('搜索关键词：', this.lastSearch)
+                }
+            }
+        });
+    </script>
+</body>
+</html>
