@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: []
+            },
+            methods: {
+              async getList() {
+                const res = await axios.get('http://localhost:3000/AccountBook')
+                console.log(res)
+              },
+              async add() {
+                const res = await axios.post('http://localhost:3000/AccountBook', {
+                    name: '新项目',
+                    price: 100,
+                    creator: 'piaopiao'
+                })
+                console.log(res)
+              },
+              delete(id) {
+                axios.delete(`http://localhost:3000/AccountBook/${id}`)
+              }
+            },
+            created() {
+                this.getList()
+            }
+        })
+    </script>
+</body>
+
+</html>
