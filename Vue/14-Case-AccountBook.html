@@ -5,41 +5,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+      .form input {
+        margin-right: 10px;
+      }
+      .form {
+        margin-bottom: 20px;
+      }
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 10px;
+      }
+      .red {
+        color: red;
+      }
+      .echarts-box {
+        border: 1px solid #000;
+        width: 600px;
+        height: 400px;
+        margin-top: 30px;
+      }
+    </style>
 </head>
 
 <body>
     <div id="app">
-       
+       <div>
+          <div class="form">
+              <input type="text" v-model.trim="form.name" placeholder="消费名称">
+              <input type="number" v-model.number="form.price" placeholder="消费价格">
+              <input type="text" v-model="form.creator" placeholder="创建人">
+              <button @click="add">添加</button>
+          </div>
+          <div v-if="list.length == 0">空</div>
+          <div class="list" v-else>
+            <table>
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>消费名称</th>
+                  <th>消费价格</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in list" :key="item.id">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ item.name }}</td>
+                  <td :class="{red: item.price > 500}">{{ item.price.toFixed(2) }}</td>
+                  <td><button @click="del(item.id)">删除</button></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4">总消费：{{ totalPrice }}
+                  </td>
+                </tr>
+            </table>
+          </div>
+          <div class="echarts-box" id="main">
+
+          </div>
+       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
     <script>
+        /*
+            功能需求
+            1. 基本渲染
+              (1) 立刻发送请求，获取数据 created
+              (2) 拿到数据，放在data中
+              (3) 将数据渲染到页面中 v-for
+              (4) 消费统计 计算属性
+            2. 添加功能
+              (1) 收集表单数据 表单双向绑定 v-model
+              (2) 校验表单数据
+              (3) 注册点击事件 发送请求，添加数据
+              (4) 需要重新渲染（重新从后端拿到数据）
+            3. 删除功能
+              (1) 注册点击事件
+              (2) 发送请求，根据id删除数据
+              (3) 需要重新渲染（重新从后端拿到数据）
+            4. 饼图渲染
+              (1) 初始化一个饼图 echarts mountedg钩子内实现
+              (2) 根据数据实时更新饼图 echarts.setOption({})
+        */
         const app = new Vue({
             el: '#app',
             data: {
-                list: []
+                list: [],
+                form: {
+                    name: '',
+                    price: '',
+                    creator: ''
+                }
+            },
+            computed: {
+              totalPrice() {
+                return this.list.reduce((total, item) => {
+                  return total + item.price
+                }, 0)
+              }
             },
             methods: {
               async getList() {
                 const res = await axios.get('http://localhost:3000/AccountBook')
-                console.log(res)
+                // console.log(res)
+                this.list = res.data
+
+                // 更新饼图
+                this.myChart.setOption({
+                    series: [
+                    {
+                      data: this.list.map(item => ({
+                          name: item.name,
+                          value: item.price
+                        })
+                      )
+                    }
+                  ]
+                })
               },
               async add() {
-                const res = await axios.post('http://localhost:3000/AccountBook', {
-                    name: '新项目',
-                    price: 100,
-                    creator: 'piaopiao'
-                })
-                console.log(res)
+                if (!this.form.name || !this.form.price || !this.form.creator) {
+                  alert('请填写完整資料')
+                  return
+                }
+                if (typeof this.form.price !== 'number') {
+                  alert('价格必须是数字')
+                  return
+                }
+                const res = await axios.post('http://localhost:3000/AccountBook', this.form)
+                // console.log(res)
+                this.getList()
+                this.form.name = ''
+                this.form.price = ''
+                this.form.creator = ''
               },
-              delete(id) {
-                axios.delete(`http://localhost:3000/AccountBook/${id}`)
+              async del(id) {
+                const res = await axios.delete(`http://localhost:3000/AccountBook/${id}`)
+                // console.log(res)
+                this.getList()
               }
             },
             created() {
                 this.getList()
-            }
+            },
+            mounted() {
+              this.myChart = echarts.init(document.getElementById('main'));
+              let option = {
+                title: {
+                  text: '消费账单分布',
+                  left: 'center'
+                },
+                tooltip: {
+                  trigger: 'item'
+                },
+                legend: {
+                  orient: 'vertical',
+                  left: 'left'
+                },
+                series: [
+                  {
+                    name: '消费账单',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [],
+                    emphasis: {
+                      itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                    }
+                  }
+                ]
+              }
+              this.myChart.setOption(option)
+            },
         })
     </script>
 </body>
