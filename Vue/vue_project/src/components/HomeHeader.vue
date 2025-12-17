@@ -1,6 +1,7 @@
 <template>
     <div class="home-header">
-        Header        
+        Header
+        <CButton></CButton> 
     </div>
 </template>
 <script>

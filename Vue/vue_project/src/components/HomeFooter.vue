@@ -1,6 +1,7 @@
 <template>
     <div class="home-footer">
-        Footer        
+        Footer      
+        <CButton></CButton> 
     </div>
 </template>
 <script>
