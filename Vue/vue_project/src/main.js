@@ -1,29 +1,21 @@
-// 文件核心作用：导入vue，导入根组件App.vue，创建Vue实例，渲染App组件，并挂载到id为app的DOM元素上。
-
-// 1. 导入Vue核心包
 import Vue from 'vue'
-// 2. 导入根组件App.vue
 import App from './App.vue'
-// 导入全局组件
-import CommonButton from './components/CommonButton.vue'
 
+// 引入全局样式
+import './styles/base.css' // css 样式重置
+import './styles/common.css' // 公共全局样式
+import './assets/iconfont/iconfont.css' // 字体图标的样式
 
-// 提示：当前是处于什么环境，生产环境下需要关闭该提示
+// 引入通用组件
+import BaseGoodsItem from './components/BaseGoodsItem.vue'
+import BaseBrandItem from './components/BaseBrandItem.vue'
+import BaseTopicItem from './components/BaseTopicItem.vue'
+Vue.component('BaseGoodsItem', BaseGoodsItem)
+Vue.component('BaseBrandItem', BaseBrandItem)
+Vue.component('BaseTopicItem', BaseTopicItem)
+
 Vue.config.productionTip = false
 
-
-// 注册全局组件
-Vue.component('CButton', CommonButton)
-
-
-// 3. Vue实例化，提供render方法，基于app.vue创建结构，渲染index.html
 new Vue({
-  // el: '#app', // 等同于$mount('#app') 用于指定Vue所管理的容器（区域）
-  // render 简写
-  // render: h => h(App),
-  // render完整写法
-  render: (createElement) => {
-    // 返回通过App组件创建的元素结构
-    return createElement(App)
-  }
+  render: h => h(App),
 }).$mount('#app')

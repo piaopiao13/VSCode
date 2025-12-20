@@ -1,42 +1,48 @@
 <template>
-  <div class="app">
-    <!-- 头部组件 -->
-    <HomeHeader></HomeHeader>
+  <div class="App">
+    <!-- 快捷链接 -->
+    <XtxShortCut />
 
-    <!-- 主体组件 -->
-    <HomeMain></HomeMain>
+    <!-- 顶部导航 -->
+    <XtxHeaderNav />
 
-    <!-- 底部组件 -->
-    <HomeFooter></HomeFooter>
+    <!-- 轮播区域 -->
+    <XtxBanner />
+
+    <!-- 新鲜好物 -->
+    <XtxNewGoods />
+
+    <!-- 热门品牌 -->
+    <XtxHotBrand />
+
+    <!-- 最新专题 -->
+    <XtxTopic />
+
+    <!-- 版权底部 -->
+    <XtxFooter />
   </div>
 </template>
 
-
 <script>
-// 导入（定义/声明）组件
-import HomeHeader from './components/HomeHeader.vue'
-import HomeMain from './components/HomeMain.vue'
-import HomeFooter from './components/HomeFooter.vue'
-
+import XtxShortCut from "@/components/XtxShortCut.vue";
+import XtxHeaderNav from "@/components/XtxHeaderNav.vue";
+import XtxBanner from "@/components/XtxBanner.vue";
+import XtxNewGoods from "@/components/XtxNewGoods.vue";
+import XtxHotBrand from "@/components/XtxHotBrand.vue";
+import XtxTopic from "@/components/XtxTopic.vue";
+import XtxFooter from "@/components/XtxFooter.vue";
 export default {
-  // 注册组件
+  name: "App",
   components: {
-    // "组件名": 组件对象
-    HomeHeader: HomeHeader,
-    // 同名的简写方式
-    HomeMain,
-    HomeFooter
+    XtxShortCut,
+    XtxHeaderNav,
+    XtxBanner,
+    XtxNewGoods,
+    XtxHotBrand,
+    XtxTopic,
+    XtxFooter
   }
 }
 </script>
 
-
-<style>
-  .app {
-    width: 600px;
-    height: 700px;
-    background-color: #87ceeb;
-    margin: 0 auto;
-    padding: 20px;
-  }
-</style>
+<style></style>
