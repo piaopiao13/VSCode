@@ -1,20 +1,21 @@
 <template>
-  <div id="app">
-    <BaseOne></BaseOne>
-    <BaseTwo></BaseTwo>
+  <div class="app">
+    <baseCount></baseCount>
+    <baseCount></baseCount>
+    <baseCount></baseCount>
   </div>
 </template>
 
 <script>
-import BaseOne from './components/BaseOne'
-import BaseTwo from './components/BaseTwo'
+import baseCount from './components/BaseCount'
 export default {
-  name: 'App',
   components: {
-    BaseOne,
-    BaseTwo
-  }
+    baseCount,
+  },
 }
 </script>
+
+<style>
+</style>
 
 
