@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debounce</title>
+  </head>
+  <body>
+    <button id="debounceBtn">Debounce</button>
+
+    <script>
+      function handleClick(event) {
+        console.log("Button clicked!");
+        console.log("this is:", this); // 不使用 apply: window 或 undefined
+        console.log("event:", event); // 不使用 apply: undefined
+      }
+
+      function debounce(func, ms) {
+        let timer;
+        // console.log("1", timer)
+
+        // 使用 rest 参数：function(...args) 确保能接收所有传入的参数（包括 event 对象）
+        return function (...args) {
+          if (timer) {
+            // console.log('clear')
+            clearTimeout(timer);
+          }
+
+          // console.log("2", timer)
+          // console.log('set')
+
+          // 这里有问题，必须使用 func.apply(this, args)：否则会丢失事件对象的 this 和 event 参数
+        //   timer = setTimeout(func, ms);
+
+          timer = setTimeout(() => {
+            func.apply(this, args);
+          }, ms);
+
+          // console.log("3", timer)
+        };
+      }
+
+      document
+        .querySelector("#debounceBtn")
+        .addEventListener("click", debounce(handleClick, 1000));
+    </script>
+  </body>
+</html>
