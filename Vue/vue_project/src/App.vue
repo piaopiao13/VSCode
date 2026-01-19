@@ -1,25 +1,42 @@
 <template>
-  <div class="app" style="background-color: pink;">
+  <div class="app">
     <!-- 父组件监听子组件的updateMsg事件 -->
-    <Son :msg="message" @updateMsg="updateMsg"></Son>
+    <UserInfo 
+      :username="uname"
+      :age="age"
+      :is-single="isSingle"
+      :car="car"
+      :hobbies="hobbies"
+    ></UserInfo>
+
+    <hr>
+
+    <BaseProgress 
+      :w="progress"
+    ></BaseProgress>
+    
   </div>
 </template>
 
 <script>
-import Son from './components/BaseSon.vue'
+import UserInfo from './components/UserInfo.vue'
+import BaseProgress from './components/BaseProgress.vue';
 export default {
   components: {
-    Son,
+    UserInfo,
+    BaseProgress
   },
   data() {
     return {
-      message: 'Hello from App.vue'
-    }
-  },
-  methods: {
-    // 接收子组件传递的新消息，并更新message，又触发子组件更新（父传子）
-    updateMsg(newMsg) {
-      this.message = newMsg
+      uname: '张三',
+      age: 18,
+      isSingle: true,
+      car: {
+        brand: 'BMW',
+        model: 'X5'
+      },
+      hobbies: ['看书', '旅行', '音乐'],
+      progress: 333
     }
   }
 }
@@ -27,5 +44,3 @@ export default {
 
 <style>
 </style>
-
-
