@@ -1,32 +1,23 @@
 <template>
   <div id="app">
-    <BaseA />
-    <BaseB />
-    <BaseC />
+    <BaseTextarea v-model="msg" />
   </div>
 </template>
 
 <script>
-import BaseA from '@/components/BaseA.vue'
-import BaseB from '@/components/BaseB.vue'
-import BaseC from '@/components/BaseC.vue'
+import BaseTextarea from '@/components/BaseTextarea.vue'
 export default {
   components: {
-    BaseA,
-    BaseB,
-    BaseC
+    BaseTextarea,
+  },
+  data() {
+    return {
+      msg: ''
+    }
   }
 }
 </script>
 
 <style>
-  .box {
-    width: 200px;
-    height: 150px;
-    padding: 10px;
-    margin-top: 10px;
-    border: 3px solid #000;
-    border-radius: 5px;
-    font-size: 20px;
-  }
+
 </style>
