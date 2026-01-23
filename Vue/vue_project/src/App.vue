@@ -1,23 +1,26 @@
 <template>
-  <div id="app">
-    <BaseTextarea v-model="msg" />
+  <div class="app">
+    <button @click="isShow = true">退出按钮</button>
+    <BaseDialog :visible.sync="isShow"></BaseDialog>
   </div>
 </template>
 
 <script>
-import BaseTextarea from '@/components/BaseTextarea.vue'
+import BaseDialog from "./components/BaseDialog.vue"
 export default {
-  components: {
-    BaseTextarea,
-  },
   data() {
     return {
-      msg: ''
+      isShow: false,
     }
-  }
+  },
+  methods: {
+    
+  },
+  components: {
+    BaseDialog,
+  },
 }
 </script>
 
 <style>
-
 </style>
