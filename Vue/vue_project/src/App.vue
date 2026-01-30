@@ -1,107 +1,74 @@
 <template>
-  <div class="box" v-loading="isLoading">
-    <ul>
-      <li v-for="item in list" :key="item.id" class="news">
-        <div class="left">
-          <div class="title">{{ item.title }}</div>
-          <div class="info">
-            <span>{{ item.source }}</span>
-            <span>{{ item.time }}</span>
-          </div>
-        </div>
+  <div>
+    <MyDialog>
+      <!-- 需要通过template标签包裹需要分发的结构，包成一个整体 -->
+      <template v-slot:head>
+        <div>我是大标题</div>
+      </template>
+      
+      <!-- <template v-slot:content>
+        <div>我是内容</div>
+      </template> -->
 
-        <div class="right">
-          <img :src="item.img" alt="">
-        </div>
-      </li>
-    </ul>
+      <template #footer>
+        <button>取消</button>
+        <button>确认</button>
+      </template>
+    </MyDialog>
+
+    <hr>
+
+    <MyTable :list="list1">
+      <!-- 3. 通过template #插槽名="变量名" 接收所有属性 -->
+      <template #default="obj">
+        <button @click="del(obj.data.id)">删除</button>
+      </template>
+    </MyTable>
+    <MyTable :list="list2">
+      <!-- 解构赋值 -->
+      <template #default="{data}">
+        <button @click="show(data.id)">查看</button>
+      </template>
+    </MyTable>
   </div>
 </template>
 
 <script>
-// 安装axios =>  yarn add axios
-import axios from 'axios'
-
-// 接口地址：http://hmajax.itheima.net/api/news
-// 请求方式：get
+import MyDialog from './components/MyDialog.vue'
+import MyTable from './components/MyTable.vue'
 export default {
   data () {
     return {
-      list: [],
-      isLoading: true
+      list1: [
+        { id: 1, name: '小张', age: 8 },
+        { id: 2, name: '小李', age: 9 },
+        { id: 3, name: '小王', age: 7 }
+      ],
+      list2: [
+        { id: 1, name: '小红', age: 6 },
+        { id: 2, name: '小绿', age: 8 },
+        { id: 3, name: '小蓝', age: 8 }
+      ]
     }
   },
-  directives: {
-    loading: {
-      inserted (el, binding) {
-        binding.value? el.classList.add('loading') : el.classList.remove('loading')
-      },
-      update (el, binding) {
-        binding.value? el.classList.add('loading') : el.classList.remove('loading')
-      }
+  methods: {
+    del (id) {
+      console.log('删除', id);
+      this.list1 = this.list1.filter(item => item.id !== id)
+    },
+    show(id) {
+      console.log('查看', id);
     }
   },
-  async created () {
-    // 1. 发送请求获取数据
-    const res = await axios.get('http://hmajax.itheima.net/api/news')
-    
-    setTimeout(() => {
-      // 2. 更新到 list 中，用于页面渲染 v-for
-      this.list = res.data.data
-      this.isLoading = false
-    }, 2000)
+  components: {
+    MyDialog,
+    MyTable
   }
 }
 </script>
 
 <style>
-.loading::before{
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fff url(./loading.gif) no-repeat center;
-}
-.box {
-  width: 800px;
-  min-height: 500px;
-  border: 3px solid orange;
-  border-radius: 5px;
-  position: relative;
-}
-.news {
-  display: flex;
-  height: 120px;
-  width: 600px;
-  margin: 0 auto;
-  padding: 20px 0;
-  cursor: pointer;
-}
-.news .left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-right: 10px;
-}
-.news .left .title {
-  font-size: 20px;
-}
-.news .left .info {
-  color: #999999;
-}
-.news .left .info span {
-  margin-right: 20px;
-}
-.news .right {
-  width: 160px;
-  height: 120px;
-}
-.news .right img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+body {
+  background-color: #b3b3b3;
 }
 </style>
