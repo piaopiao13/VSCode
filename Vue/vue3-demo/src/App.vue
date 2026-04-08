@@ -1,30 +1,36 @@
 <script setup>
-// 父传子
-// 1. 父组件中给子组件绑定属性
-// 2. 子组件内部通过props选项接收
+import { onMounted, ref } from "vue";
+import TestItem from "@/components/TestItem.vue";
 
-// 子传父
-// 1. 父组件中给子组件标签通过@绑定事件
-// 2. 子组件内部通过emit方法触发事件
+// 1. 调用ref函数得到ref对象
+const h1Ref = ref(null);
+const inputRef = ref(null);
 
-import { ref } from "vue";
-// 局部注册子组件
-import SonItem from "@/components/SonItem.vue";
+// 3. 通过ref对象访问DOM元素，需要通过.value，且必须要渲染之后才能访问到
+console.log(h1Ref.value); // null
+onMounted(() => {
+  console.log(h1Ref.value); // <h1>Hello World</h1>
+  inputRef.value.focus();
+});
 
-const money = ref(1000);
-
-const getMoney = () => {
-  money.value += 1000;
+const handleClick = () => {
+  inputRef.value.focus();
 };
 
-const changeMoney = (val) => {
-  money.value -= val;
+const testRef = ref(null);
+const getCom = () => {
+  console.log(testRef.value);
 };
 </script>
 
 <template>
-  <h1>组件通信 - 父传子</h1>
-  <p>父组件传递给子组件的金额: {{ money }} <button @click="getMoney">挣钱</button></p>
+  <!-- 2. 将ref标识绑定ref对象 -->
+  <h1 ref="h1Ref">Hello World</h1>
 
-  <SonItem car="宝马车" :money="money" @costMoney="changeMoney"></SonItem>
+  <div>
+    <input type="text" ref="inputRef" />
+    <button @click="handleClick">点击聚焦输入框</button>
+  </div>
+  <TestItem ref="testRef" />
+  <button @click="getCom">获取组件</button>
 </template>
