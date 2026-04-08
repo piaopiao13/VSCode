@@ -1,28 +1,30 @@
 <script setup>
-import { onMounted } from "vue";
+// 父传子
+// 1. 父组件中给子组件绑定属性
+// 2. 子组件内部通过props选项接收
 
-// beforeCreate 和 created 的相关代码
-// 一律放在 setup 中执行
+// 子传父
+// 1. 父组件中给子组件标签通过@绑定事件
+// 2. 子组件内部通过emit方法触发事件
 
-const getList = () => {
-  setTimeout(() => {
-    console.log("发送请求，获取数据");
-  }, 2000);
+import { ref } from "vue";
+// 局部注册子组件
+import SonItem from "@/components/SonItem.vue";
+
+const money = ref(1000);
+
+const getMoney = () => {
+  money.value += 1000;
 };
-// 一进入页面的请求
-getList();
 
-// 如果有些代码需要在mounted生命周期中执行
-onMounted(() => {
-  console.log("mounted生命周期函数 - 逻辑1");
-});
-
-// 写成函数的调用方式，可以调用多次，并不会冲突，而是按照顺序依次执行
-onMounted(() => {
-  console.log("mounted生命周期函数 - 逻辑2");
-});
+const changeMoney = (val) => {
+  money.value -= val;
+};
 </script>
 
 <template>
-  <h1>生命周期函数</h1>
+  <h1>组件通信 - 父传子</h1>
+  <p>父组件传递给子组件的金额: {{ money }} <button @click="getMoney">挣钱</button></p>
+
+  <SonItem car="宝马车" :money="money" @costMoney="changeMoney"></SonItem>
 </template>
