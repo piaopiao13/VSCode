@@ -5,7 +5,7 @@ import { userRegisterService, userLoginService } from '@/api/user.js'
 import { useUserStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
 
-const isRegister = ref(true)
+const isRegister = ref(false)
 watch(isRegister, () => {
   formModel.value = {
     username: '',
